@@ -1,0 +1,89 @@
+﻿@using Den.Dto;
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="window.NavMenu.closeNav('mySidenav','main')">&times;</a>
+   
+    <div>
+        <table class="w-100">
+            <tr>
+                <div class="text-center">
+                    <img src="images/users.png" height="100" class="m-2"/>
+                </div>
+            </tr>
+            <tr>
+                <div class="m-2 d-flex justify-content-around">
+                    <div class="search row">
+                        <DxTextBox @bind-Text="@TextToken" CssClass="searchbox"
+                                   SizeMode="@SizeMode.Medium"></DxTextBox>                      
+
+                        <DxButton RenderStyle="ButtonRenderStyle.Secondary"
+                                  style="margin-top:1px; margin-bottom:1px">
+                            <i class="oi oi-magnifying-glass"></i>
+                        </DxButton>
+                    </div>
+                </div>
+            </tr>
+            <tr>
+                <DxDataGrid Data="@Users"  ShowFilterRow="false"
+                            @bind-SingleSelectedDataRow="@SelectedProduct" CssClass="mr-4"
+                                             ShowPager="false" 
+                            >
+                    <DxDataGridColumn Field="@nameof(User.FirstName)" Width="300px"></DxDataGridColumn>
+                    <DxDataGridColumn Field="@nameof(User.LastName)" Width="300px"></DxDataGridColumn>
+                    <DxDataGridColumn Field="@nameof(User.Email)" Width="500px"></DxDataGridColumn>
+                </DxDataGrid>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private string _textToken;
+
+    public string TextToken
+    {
+        get
+        {
+            return _textToken;
+        }
+        set {
+            _textToken = value;
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Users = User.GetSomeData().ToArray();
+            InvokeAsync(StateHasChanged);
+        }
+
+    }
+
+    public User[] Users { get; set; } = new User[0];
+
+
+
+    User selectedUser;
+    public User SelectedProduct
+    {
+        get { return selectedUser; }
+        set
+        {
+            selectedUser = value;
+            InvokeAsync(StateHasChanged);
+        }
+    }
+}

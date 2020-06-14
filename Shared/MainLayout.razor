@@ -1,0 +1,17 @@
+﻿@inherits LayoutComponentBase
+
+<div class="sidebar">
+    <NavMenu />
+</div>
+
+
+<div id="main" class="main">
+    <div class="topbar d-flex flex-row align-items-center justify-content-between">
+        @*<img src="" alt="logo" height="100" width="200" />*@
+        <span class="oi oi-envelope-closed m-2" style="color:white;"/>
+        <button class="btn btn-primary m-2" onclick="window.NavMenu.openNav('mySidenav','main', false)"> Menu </button>
+    </div>
+    <div class="content px-4">
+        @Body
+    </div>
+</div>
